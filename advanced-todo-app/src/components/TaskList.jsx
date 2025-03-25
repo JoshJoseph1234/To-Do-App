@@ -9,7 +9,8 @@ const TaskList = () => {
     <ul className="task-list">
       {tasks.map((task, index) => (
         <li key={index} className="task-item">
-          <span>{task}</span>
+          <span>{task.text}</span>
+          {task.weather && <span>🌤 {task.weather}</span>}
           <button onClick={() => dispatch(deleteTask(index))}>Delete</button>
         </li>
       ))}

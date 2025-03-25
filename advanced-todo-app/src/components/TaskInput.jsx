@@ -4,11 +4,33 @@ import { addTask } from "../store/taskSlice";
 
 const TaskInput = () => {
   const [task, setTask] = useState("");
+  const [weather, setWeather] = useState(null);
   const dispatch = useDispatch();
 
-  const handleAddTask = () => {
+  const API_KEY = "11bffea0316789bec76f6dd84a7c2a05"; // Replace with your OpenWeather API Key
+
+  const fetchWeather = async () => {
+    try {
+      const res = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=New York&units=metric&appid=${API_KEY}`
+      );
+      const data = await res.json();
+      return data.main.temp + "°C";
+    } catch (error) {
+      console.error("Weather fetch error:", error);
+      return "N/A";
+    }
+  };
+
+  const handleAddTask = async () => {
     if (task.trim() === "") return;
-    dispatch(addTask(task));
+
+    let taskWeather = null;
+    if (task.toLowerCase().includes("outdoor")) {
+      taskWeather = await fetchWeather();
+    }
+
+    dispatch(addTask({ text: task, weather: taskWeather }));
     setTask("");
   };
 
