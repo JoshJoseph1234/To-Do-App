@@ -7,7 +7,8 @@ const TaskInput = () => {
   const [weather, setWeather] = useState(null);
   const dispatch = useDispatch();
 
-  const API_KEY = "11bffea0316789bec76f6dd84a7c2a05"; // Replace with your OpenWeather API Key
+  const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
+ // Replace with your OpenWeather API Key
 
   const fetchWeather = async () => {
     try {
